@@ -1,82 +1,117 @@
-let computerNumber = 0;
-let playButton = document.getElementById("play-button");
-let resetButton = document.querySelector(".button-reset");
-let userInput = document.querySelector("#user-input");
-let resultAreaImg = document.querySelector(".main-img");
-let resultText = document.querySelector(".result-text");
-let chanceArea = document.getElementById("chance-area");
-let gameOver = false;
-let chances = 5;
-let userValueList = [];
+let userInput = document.querySelector(".task-input");
+let addButton = document.querySelector(".button-add");
+let tabs = document.querySelectorAll(".tab-type div");
+let underLine = document.getElementById("tab-underline");
+let taskList = [];
+let mode = "all";
+let filterList = [];
 
-chanceArea.innerHTML = `남은 기회:${chances}`;
-playButton.addEventListener("click", play);
-resetButton.addEventListener("click", reset);
-userInput.addEventListener("focus", focusInput);
-
-function pickRandomNumber() {
-  // 랜덤숫자 뽑기
-  computerNumber = Math.floor(Math.random() * 10) + 1;
-  console.log("정답", computerNumber);
+addButton.addEventListener("mousedown", addTask);
+userInput.addEventListener("keydown", function (event) {
+  if (event.keyCode === 13) {
+    addTask(event);
+  }
+});
+for (let i = 0; i < tabs.length; i++) {
+  tabs[i].addEventListener("click", function (event) {
+    filter(event);
+  });
 }
 
-function play() {
-  // 숫자 추측하기
-  const userValue = userInput.value;
-  if (userValue < 1 || userValue > 10) {
-    resultText.textContent = "1부터 10 사이의 숫자를 입력 해주세요";
+function addTask() {
+  let taskValue = userInput.value;
+  let task = {
+    content: taskValue,
+    isComplete: false,
+    id: randomIDGenerator(),
+  };
 
-    return;
-  }
+  taskList.push(task);
+  userInput.value = "";
+  render();
+}
 
-  if (userValueList.includes(userValue)) {
-    resultText.textContent = "이미 입력한 숫자입니다. 다른 숫자를 입력해주세요";
-
-    return;
-  }
-
-  chances--;
-  chanceArea.innerHTML = `남은 기회:${chances}`;
-  userValueList.push(userValue);
-  if (userValue < computerNumber) {
-    resultAreaImg.src =
-      "https://media0.giphy.com/media/3ov9jExd1Qbwecoqsg/200.gif";
-    resultText.textContent = "Up!";
-  } else if (userValue > computerNumber) {
-    resultAreaImg.src = "https://media.giphy.com/media/r2puuhrnjG7vy/giphy.gif";
-    resultText.textContent = "Down!";
+function render() {
+  let result = "";
+  list = [];
+  if (mode === "all") {
+    list = taskList;
   } else {
-    resultAreaImg.src =
-      "https://media.tenor.com/images/0a81b89954678ebe228e15e35044f7a5/tenor.gif";
-    resultText.textContent = "정답!";
-    gameOver = true;
+    // else if(mode=== "ongoing" || mode==="done") 을 결국 else 로 치환할 수 있다.
+    list = filterList;
   }
 
-  if (chances == 0) {
-    gameOver = true;
+  for (let i = 0; i < list.length; i++) {
+    if (list[i].isComplete) {
+      result += `<div class="task task-done" id="${list[i].id}">
+            <span>${list[i].content}</span>
+            <div class="button-box">
+            <button onclick="toggleDone('${list[i].id}')"><i class="fas fa-undo-alt"></i></button>
+            <button onclick="deleteTask('${list[i].id}')"><i class="fa fa-trash"></i></button>
+            </div>
+        </div>`;
+    } else {
+      result += `<div class="task" id="${list[i].id}" >
+            <span>${list[i].content}</span>
+            <div class="button-box">
+            <button onclick="toggleDone('${list[i].id}')"><i class="fa fa-check"></i></button>
+            <button onclick="deleteTask('${list[i].id}')"><i class="fa fa-trash"></i></button>
+            </div>
+        </div>`;
+    }
   }
 
-  if (gameOver == true) {
-    playButton.disabled = true;
+  document.getElementById("task-board").innerHTML = result;
+}
+
+function toggleDone(id) {
+  for (let i = 0; i < taskList.length; i++) {
+    if (taskList[i].id === id) {
+      taskList[i].isComplete = !taskList[i].isComplete;
+      break;
+    }
   }
+  filter();
 }
 
-function focusInput() {
-  userInput.value = "";
+function deleteTask(id) {
+  for (let i = 0; i < taskList.length; i++) {
+    if (taskList[i].id === id) {
+      taskList.splice(i, 1);
+    }
+  }
+
+  filter();
+}
+function filter(e) {
+  if (e) {
+    mode = e.target.id;
+    underLine.style.width = e.target.offsetWidth + "px";
+    underLine.style.left = e.target.offsetLeft + "px";
+    underLine.style.top =
+      e.target.offsetTop + (e.target.offsetHeight - 4) + "px";
+  } // 진행중 상태에서 끝남으로 표시하면 바로 사라지는 부분은 event가 없음 그래서 조건추가
+
+  filterList = [];
+  if (mode === "ongoing") {
+    for (let i = 0; i < taskList.length; i++) {
+      if (taskList[i].isComplete == false) {
+        filterList.push(taskList[i]);
+      }
+    }
+  } else if (mode === "done") {
+    for (let i = 0; i < taskList.length; i++) {
+      if (taskList[i].isComplete) {
+        filterList.push(taskList[i]);
+      }
+    }
+  }
+  render();
 }
 
-function reset() {
-  //리셋
-  pickRandomNumber();
-  userInput.value = "";
-  resultAreaImg.src =
-    "https://media1.giphy.com/media/9DinPR8bzFsmf74j9W/giphy.gif";
-  resultText.textContent = "죽기 싫다면 맞춰라";
-  gameOver = false;
-  playButton.disabled = false;
-  chances = 5;
-  chanceArea.innerHTML = `남은 기회:${chances}`;
-  userValueList = [];
+function randomIDGenerator() {
+  // Math.random should be unique because of its seeding algorithm.
+  // Convert it to base 36 (numbers + letters), and grab the first 9 characters
+  // after the decimal.
+  return "_" + Math.random().toString(36).substr(2, 9);
 }
-
-pickRandomNumber();

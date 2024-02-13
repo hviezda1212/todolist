@@ -3,87 +3,151 @@
 src : url("./asset/font/DungGeunMo.ttf");
 }
 
-body {
-    background-size: cover;
-    height: 100vh;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    font-family: DungGeunMo;
-    /* background-image: url(image/soju.jpeg); */
-  }
-  
-  .container {
-    border: 10px solid white;
-    border-radius: 20px;
-    text-align: center;
-    background-color: rgba(247, 243, 242, 0.7);
-  }
-  
-  .border-line {
-    padding-bottom: 20px;
-    display: flex;
-    justify-content: center;
-  }
-  
-  .button-style {
-    height: 80px;
-    width: 100px;
-    margin-top: 5px;
-    margin-right : 10px;
-    border-radius: 50px;
-    font-size: 20pt;
-    font-weight: bold;
-  }
-  .pre-title {
-    font-size: 3vw;
-    font-weight: bold;
-    color: blue;
-  }
-  .title {
-    font-size: 5vw;
-    font-weight: bold;
-  }
-  .sub-title {
-    font-size: 4vw;
-    font-weight: bold;
-  }
-  
-  .main-img {
-    width: 20vw;
-    height: 20vh
-  }
-  
-  .red-text {
-    color: red;
-  }
-  
-  .form-control {
-    height: 80px;
-  
-    font-size: 2vw;
-    margin-right: 20px;
-    text-align: center;
-  }
-  
-  @media screen and (max-width: 48rem) {
-    .pre-title {
-      font-size: 9vw;
-    }
-    .title {
-      font-size: 11vw;
-    }
-    .sub-title {
-      font-size: 10vw;
-    }
-    .form-control {
-      font-size: 5vw;
-      max-width: 500px;
-      margin-right: 0px;
-    }
-    .main-img {
-      width: 40vw;
-    }
+h1 {
+ font-size : calc(1.6rem + 1.6vw);
+}
 
-  }
+body {
+  margin: 0;
+  background-image: url("./asset/image/space.jpg");
+  background-repeat: no-repeat;
+  background-size: cover;
+  font-family: DungGeunMo;
+}
+
+.container {
+  background-color: white;
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+  max-width: 800px;
+  border-top: 10px solid blanchedalmond;
+  border-bottom: 10px solid blanchedalmond;
+  height: 100%;
+  min-height: 100vh;
+}
+.input-area {
+  position: relative;
+}
+.task-input {
+  transition: padding-top 0.2s ease, margin-top 0.2s ease;
+  width: 80%;
+  border: none;
+  border: 1px solid blanchedalmond;
+}
+.task-input:focus {
+  outline: none;
+  border-bottom: 3px solid blanchedalmond;
+  border-left: none;
+  border-right: none;
+  border-top: none;
+  transition: 0.5s;
+  padding-top: 35px;
+}
+
+.task-input + label > span {
+  font-weight: 300;
+  margin: 0;
+  position: absolute;
+  color: #8f8f8f;
+  font-size: 16px;
+  top: 1px;
+  left: 10px;
+  -webkit-transition: top 0.2s ease, font-size 0.3s ease, color 0.2s ease;
+  transition: top 0.2s ease, font-size 0.3s ease, color 0.2s ease;
+}
+
+.task-input:focus + label > span {
+  top: 0px;
+  color: #333;
+}
+
+.button-add {
+  border: none;
+  background-color: blanchedalmond;
+  box-shadow: rgba(0, 0, 0, 0.02) 0 1px 3px 0;
+}
+.button-add:hover {
+  background-color: cadetblue;
+}
+.button-add:active {
+  background-color: #f3f4f6;
+  box-shadow: -1px 2px 5px rgba(81, 41, 10, 0.15),
+    0px 1px 1px rgba(81, 41, 10, 0.15);
+  transform: translateY(0.125rem);
+}
+
+.task-list-container {
+  border: 1px solid lightgray;
+  margin-top: 1em;
+  position: relative;
+}
+.tab-type {
+  display: flex;
+  border-bottom: 1px solid lightgray;
+}
+
+.tab-type div {
+  padding: 1em;
+  cursor: pointer;
+}
+
+#tab-underline {
+  background-color: lightpink;
+  height: 4px !important;
+  position: absolute;
+  top: 52px;
+  left: 0px;
+  width: 48px;
+  transition: 0.5s;
+  padding: 0px;
+}
+
+.task {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  border-bottom: 1px solid lightgray;
+  position: relative;
+}
+.task span {
+  padding: 1em;
+}
+.button-box {
+  display: flex;
+}
+
+.button-box button {
+  height: 100%;
+  border: none;
+  width: 5em;
+  margin: 0;
+  background-color: white;
+  transition: 0.5s;
+}
+.button-box button :active {
+  position: relative;
+  top: 2px;
+}
+
+.button-box button:first-child:hover {
+  background-color: 	#F0FFF0;
+}
+.button-box button:nth-child(2):hover {
+  background-color: 	#FFF0F5;
+}
+
+.fa-check {
+  color: 	#9ACD32;
+}
+
+.fa-trash {
+  color: #CD5C5C;
+}
+.fa-undo-alt {
+  color: lightslategray;
+}
+
+.task-done {
+  text-decoration: line-through;
+  background-color: rgb(232, 232, 232);
+  transition: 0.5s;
+}
