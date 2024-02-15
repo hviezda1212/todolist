@@ -24,9 +24,11 @@ body {
   height: 100%;
   min-height: 100vh;
 }
+
 .input-area {
   position: relative;
 }
+
 .task-input {
   transition: padding-top 0.2s ease, margin-top 0.2s ease;
   width: 80%;
@@ -42,7 +44,6 @@ body {
   transition: 0.5s;
   padding-top: 35px;
 }
-
 .task-input + label > span {
   font-weight: 300;
   margin: 0;
@@ -54,7 +55,6 @@ body {
   -webkit-transition: top 0.2s ease, font-size 0.3s ease, color 0.2s ease;
   transition: top 0.2s ease, font-size 0.3s ease, color 0.2s ease;
 }
-
 .task-input:focus + label > span {
   top: 0px;
   color: #333;
@@ -80,11 +80,11 @@ body {
   margin-top: 1em;
   position: relative;
 }
+
 .tab-type {
   display: flex;
   border-bottom: 1px solid lightgray;
 }
-
 .tab-type div {
   padding: 1em;
   cursor: pointer;
@@ -111,10 +111,10 @@ body {
 .task span {
   padding: 1em;
 }
+
 .button-box {
   display: flex;
 }
-
 .button-box button {
   height: 100%;
   border: none;
@@ -127,7 +127,6 @@ body {
   position: relative;
   top: 2px;
 }
-
 .button-box button:first-child:hover {
   background-color: 	#F0FFF0;
 }
@@ -142,6 +141,7 @@ body {
 .fa-trash {
   color: #CD5C5C;
 }
+
 .fa-undo-alt {
   color: lightslategray;
 }
