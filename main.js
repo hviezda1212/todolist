@@ -27,9 +27,11 @@ function addTask() {
     id: randomIDGenerator(),
   };
 
+  if (taskValue != "") {
   taskList.push(task);
   userInput.value = "";
   render();
+  }
 }
 
 function render() {
